@@ -1,6 +1,8 @@
 package server;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -10,6 +12,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import Constant.Constants;
+import param.RequestParam;
 
 /**
  * Created by chentm on 2017/9/25.
@@ -49,8 +52,14 @@ public class ServerCenter {
 
                 try {
                     connection = serverSocket.accept();
+                    ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());
+                    Object objectIn = inputStream.readObject();
+                    RequestParam requestParam = (RequestParam)objectIn;
+
 
                 } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
 
